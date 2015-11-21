@@ -1,5 +1,6 @@
 package com.javarush.test.level26.lesson02.task02;
 
+import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -9,6 +10,15 @@ import java.util.TreeSet;
 */
 public class Solution {
     public static void main(String[] args) {
+        /* для варианта , когда class Soldier БЕЗ implements Comparable
+        Set<Soldier> soldiers = new TreeSet<>(new Comparator<Soldier>() {
+            @Override
+            public int compare(Soldier o1, Soldier o2) {
+                int rang = o2.height-o1.height;
+                if (rang==0) rang = rang + o1.name.compareTo(o2.name);
+                return rang;
+            }
+        });*/
         Set<Soldier> soldiers = new TreeSet<>();
         soldiers.add(new Soldier("Ivanov", 170));
         soldiers.add(new Soldier("Petrov", 180));
@@ -21,6 +31,7 @@ public class Solution {
         }
     }
 
+    //public static class Soldier{ //если без implements Comparable<Soldier>, то в  TreeSet надо передать Comparator
     public static class Soldier implements Comparable<Soldier>{
         private String name;
         private int height;
@@ -30,7 +41,7 @@ public class Solution {
             this.height = height;
         }
 
-        @Override
+
         public int compareTo(Soldier o) {
             int rang = o.height-this.height;
             if (rang==0) rang = rang + this.name.compareTo(o.name);
