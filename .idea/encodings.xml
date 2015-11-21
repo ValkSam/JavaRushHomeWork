@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/src/com/javarush/test/level24/lesson14/big01/Arcanoid.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/javarush/test/level25/lesson16/big01/Canvas.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/javarush/test/level25/lesson16/big01/KeyboardObserver.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/javarush/test/level26/lesson15/big01/CashMachine.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/javarush/test/level26/lesson15/big01/ConsoleHelper.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/javarush/test/level26/lesson15/big01/CurrencyManipulator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/javarush/test/level26/lesson15/big01/command/Command.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/javarush/test/level26/lesson15/big01/command/CommandExecutor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/javarush/test/level26/lesson15/big01/command/DepositCommand.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/javarush/test/level26/lesson15/big01/command/ExitCommand.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/myTests/ExecutorsTest/CachedThreadPoolTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/myTests/ExecutorsTest/CallableAndRunnableTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/myTests/ExecutorsTest/ExecutorsTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/myTests/ExecutorsTest/ScheduledExecutorTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/myTests/FormatOfString/MessageFormatTest/ChoiceFormatTest/Rextester.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/myTests/FormatOfString/MessageFormatTest/Rextester.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/myTests/testSync/Test5_wait.java" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
