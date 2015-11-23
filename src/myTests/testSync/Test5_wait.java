@@ -30,7 +30,7 @@ class A implements Runnable {
     public void run() {
         System.out.println(this.getClass().getSimpleName() + " в " + Thread.currentThread().getName() + " подошел к synchronized (Integer.class)");
         synchronized (Integer.class) {
-            System.out.println(this.getClass().getSimpleName() + " в " + Thread.currentThread().getName() + " вошел в synchronized (Integer.class)");
+            System.out.println(this.getClass().getSimpleName() + " в " + Thread.currentThread().getName() + " вошел в synchronized (Integer.class) и создает список ... ");
 
             {
                 //заполняем список
@@ -43,7 +43,7 @@ class A implements Runnable {
                 }
             }
             try {
-                System.out.println("    " + this.getClass().getSimpleName() + " в " + Thread.currentThread().getName() + " ждет ...");
+                System.out.println("    " + this.getClass().getSimpleName() + " в " + Thread.currentThread().getName() + " создал список и ждет ...");
                 Integer.class.wait(); //ждем, пока в в другом потоке в объекте В список изменится
                 System.out.println("    " + this.getClass().getSimpleName() + " в " + Thread.currentThread().getName() + " ... работает дальше");
                 System.out.println("      выводим новый список:");
@@ -85,7 +85,7 @@ class B implements Runnable {
             System.out.println("    " + this.getClass().getSimpleName() + " в " + Thread.currentThread().getName() + " уведомил А, что новый список готов...");
             Integer.class.notify();
             System.out.println("   B еще некоторое время работает в синхронизированном блоке, поэтому А пока ждет ... ");
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 50; i++) {
                 System.out.print(" . ");
             }
             System.out.println();

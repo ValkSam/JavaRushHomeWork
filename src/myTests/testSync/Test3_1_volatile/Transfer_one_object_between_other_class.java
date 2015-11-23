@@ -1,4 +1,4 @@
-package myTests.testSync.Test3_volatile;
+package myTests.testSync.Test3_1_volatile;
 
 /*
 есть клас, котрый заполняет список, переданный ему в конструкторе
@@ -10,17 +10,6 @@ package myTests.testSync.Test3_volatile;
 package myTests.testSync.Test4_volatile;
 */
 
-/*
-Пример в package myTests.testSync.Test3_1_volatile
-отличается следующим:
-  volatile переменная вынесена как общая для использующих ее классов - т.е. переменная вынесена из классов и
-  они обращаются к ней как к внешней переменной.
-  При этом, если убрать volatile, то каждый поток создаст в своем кеше ее копию и работать не будет.
-  //
-  в текущем примере списки сразу хранятся внутри классов (являются приват полем), но объединены через ссылку на внешний список
-  (внешний список передается как параметр в конструкторе). При этом приват поля работают синхронной за счет объявления
-  каждого из них volatile
-*/
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,16 +18,17 @@ import java.util.List;
  * Created by Valk on 22.03.15.
  */
 public class Transfer_one_object_between_other_class {
+    public static volatile List<String> altDrop = new ArrayList<>();
+
     public static void main(String[] args) throws Exception {
         System.out.println("!===========");
-        List<String> altDrop = new ArrayList<>();
-        (new Thread(new altConsumer(altDrop))).start();
-        (new Thread(new altConsumer(altDrop))).start();
+        (new Thread(new altConsumer())).start();
+        (new Thread(new altConsumer())).start();
         Thread.sleep(300); //чтобы гарантированно подойти к "while (drop.size() == 0) {}" (см. комментарий "зачем volatile.... ")
         //
-        Thread thread2 = new Thread(new altProducer(altDrop));
+        Thread thread2 = new Thread(new altProducer());
         thread2.start();
-        Thread thread3 = new Thread(new altProducer(altDrop));
+        Thread thread3 = new Thread(new altProducer());
         thread3.start();
         Thread.sleep(3000);
         System.out.println("end");
@@ -56,15 +46,11 @@ class altProducer implements Runnable {
             "msg - 6",
             "msg - 7");
 
-    public altProducer(List<String> d) {
-        this.drop = d;
-    }
-
-    public void run() {
+        public void run() {
         for (String s : messages) {
-            synchronized (drop) {
-                String msg = Thread.currentThread().getName() + " " + s + " - " + drop.size();
-                drop.add(msg);
+            synchronized (Transfer_one_object_between_other_class.altDrop) {
+                String msg = Thread.currentThread().getName() + " " + s + " - " + Transfer_one_object_between_other_class.altDrop.size();
+                Transfer_one_object_between_other_class.altDrop.add(msg);
                 System.out.println("put " + msg);
             }
             try {
@@ -73,7 +59,7 @@ class altProducer implements Runnable {
             }
         }
         String msg = Thread.currentThread().getName() + " " + "DONE";
-        drop.add("DONE");
+        Transfer_one_object_between_other_class.altDrop.add("DONE");
         System.out.println("put " + msg);
     }
 }
@@ -93,10 +79,6 @@ class altConsumer implements Runnable {
     */
     private volatile List<String> drop;
 
-    public altConsumer(List<String> d) {
-        this.drop = d;
-    }
-
     public void run() {
         String msg = null;
         while (!((msg = dropGet()).equals("DONE"))) {
@@ -108,16 +90,16 @@ class altConsumer implements Runnable {
 
     private String dropGet() {
         String result = "";
-        while (drop.size() == 0) {
+        while (Transfer_one_object_between_other_class.altDrop.size() == 0) {
         }
         try {
             Thread.sleep(50 + (int) (100 * Math.random()));
         } catch (InterruptedException e) {
         }
-        synchronized (drop) {
-            if (drop.size() != 0) {
-                result = drop.get(0);
-                drop.remove(0);
+        synchronized (Transfer_one_object_between_other_class.altDrop) {
+            if (Transfer_one_object_between_other_class.altDrop.size() != 0) {
+                result = Transfer_one_object_between_other_class.altDrop.get(0);
+                Transfer_one_object_between_other_class.altDrop.remove(0);
             }
         }
         return result;
