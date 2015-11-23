@@ -1,4 +1,4 @@
-package myTests.testSync;
+package myTests.testSync.Test5_wait;
 
 import java.util.ArrayList;
 
