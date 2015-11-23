@@ -13,15 +13,15 @@ import java.util.ArrayList;
  * Created by Valk on 13.04.15.
  */
 public class Test5_wait {
-    static ArrayList<Integer> list = new ArrayList<>();
+    static volatile ArrayList<Integer> list = new ArrayList<>();
 
     public static void main(String[] args) {
-        new Thread(new A()).start();
+        new Thread(new B()).start();
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
         }
-        new Thread(new B()).start();
+        new Thread(new A()).start();
     }
 }
 
@@ -66,6 +66,8 @@ class A implements Runnable {
 class B implements Runnable {
     @Override
     public void run() {
+        while(Test5_wait.list.size()==0) {} //для демонстрации влияния volatile: без volatile этот цикл будет крутиться
+        // вечно, не зная, что Test5_wait.list уже не пустой
         System.out.println(this.getClass().getSimpleName() + " в " + Thread.currentThread().getName() + " подошел к synchronized (Integer.class)");
         synchronized (Integer.class) {
             System.out.println(this.getClass().getSimpleName() + " в " + Thread.currentThread().getName() + " вошел в synchronized (Integer.class)");
