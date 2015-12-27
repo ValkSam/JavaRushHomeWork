@@ -43,10 +43,10 @@ public class Solution {
         @Override
         public B clone() throws CloneNotSupportedException {
             if (this.getClass().getSimpleName().equals("B")) {
-                throw new CloneNotSupportedException();
+                throw new CloneNotSupportedException(); //клонирование В запрещено
             }
             else {
-                return (B)super.clone();
+                return (B)super.clone(); //наследники могут
             }
         }
     }

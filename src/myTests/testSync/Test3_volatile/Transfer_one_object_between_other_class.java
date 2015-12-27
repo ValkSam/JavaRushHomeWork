@@ -109,6 +109,7 @@ class altConsumer implements Runnable {
     private String dropGet() {
         String result = "";
         while (drop.size() == 0) {
+            //synchronized (drop){} - это можно вместо volatile, т.к.
         }
         try {
             Thread.sleep(50 + (int) (100 * Math.random()));

@@ -28,7 +28,7 @@ public class Solution implements Serializable {
         }
     }
 
-    /*
+
     public static void main(String args[]) throws Exception
     {
         ByteArrayOutputStream obuf = new ByteArrayOutputStream();
@@ -40,5 +40,5 @@ public class Solution implements Serializable {
         ObjectInputStream ois = new ObjectInputStream(ibuf);
         B b1 = (B)(new Solution()).getOriginalObject(ois);
     }
-    */
+
 }

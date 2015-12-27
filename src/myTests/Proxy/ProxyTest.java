@@ -1,8 +1,6 @@
 package myTests.Proxy;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.*;
 import java.util.Arrays;
 
 /**
@@ -17,15 +15,34 @@ public class ProxyTest {
         //обработчик, на который заворачиваются вызовы методов интерфейса SimpleClass
         MyInvocationHandler myInvocationHandler = new MyInvocationHandler(scOriginal);
 
-        SimpleClass sc = (SimpleClass) Proxy.newProxyInstance(loader, interfaces, myInvocationHandler); // Важно:
-        //должно быть приведение к интерфейсу, не классу: (SimpleClass). Так нельзя: (FirstSimpleClass)
+        SimpleClass sc = null; //прокси-объект
+        {
+            //варинт создания прокси-класса и его инициаци через рефлексию ...
+            try {
+                Class<SimpleClass> pr = (Class<SimpleClass>) Proxy.getProxyClass(loader, interfaces);
+                Constructor<SimpleClass> constructor = pr.getConstructor(InvocationHandler.class);
+                sc = (SimpleClass) constructor.newInstance(myInvocationHandler);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            //вызываем методы через прокси-объект
+            assert sc != null;
+            sc.method_1(1); //фактически будет вызван метод MyInvocationHandler.invoke()
+            sc.method_2(2, "aaaa");
+        }
+        System.out.println("================================");
+        {
+            //вариант использования newProxyInstance, в который сразу передается обработчик вызовов myInvocationHandler
+            sc = (SimpleClass) Proxy.newProxyInstance(loader, interfaces, myInvocationHandler); // Важно:
+            //должно быть приведение к интерфейсу, не классу: (SimpleClass). Так нельзя: (FirstSimpleClass)
 
-        //вызываем методы через прокси-объект
-        sc.method_1(1); //фактически будет вызван метод MyInvocationHandler.invoke()
-        sc.method_2(2, "qwerty");
+            //вызываем методы через прокси-объект
+            sc.method_1(3); //фактически будет вызван метод MyInvocationHandler.invoke()
+            sc.method_2(4, "ssss");
+        }
     }
 
-    static class MyInvocationHandler implements InvocationHandler{
+    static class MyInvocationHandler implements InvocationHandler {
         private SimpleClass sc; //оригинальнй объект для возможности вызвать его методы
 
         public MyInvocationHandler(SimpleClass sc) {
@@ -39,14 +56,14 @@ public class ProxyTest {
             System.out.printf("%s - %s - %s", proxy.getClass().getSimpleName(), method.getName(), Arrays.asList(args));
             System.out.println();
             //
-            switch(method.getName()){
-                case "method_1":{
-                    args[0] = Integer.valueOf(args[0].toString())*100; //в качестве доп. функциональности метода, увеличиваем в 100 раз значение аргумента
+            switch (method.getName()) {
+                case "method_1": {
+                    args[0] = Integer.valueOf(args[0].toString()) * 100; //в качестве доп. функциональности метода, увеличиваем в 100 раз значение аргумента
                     method.invoke(sc, args); //вызываем оригнальный метод
                     break;
                 }
-                case "method_2":{
-                    args[1] = args[1]+"-asdf"; //меняем значение второго аргумента метода
+                case "method_2": {
+                    args[1] = args[1] + "-asdf"; //меняем значение второго аргумента метода
                     method.invoke(sc, args); //вызываем оригнальный метод
                     break;
                 }
@@ -57,19 +74,19 @@ public class ProxyTest {
     }
 }
 
-interface SimpleClass{
+interface SimpleClass {
     void method_1(int i);
 
     void method_2(int i, String s);
 }
 
 class FirstSimpleClass implements SimpleClass {
-    public void method_1(int i){
+    public void method_1(int i) {
         System.out.printf("simpleClass.method_1 i = %s", i);
         System.out.println();
     }
 
-    public void method_2(int i, String s){
+    public void method_2(int i, String s) {
         System.out.printf("simpleClass.method_2 i = %s, s = %s", i, s);
         System.out.println();
     }

@@ -63,14 +63,17 @@ public class Solution {
         }
 
         void heapConsuming() {
+            int i = 0;
             try {
                 List<Solution> heap = new ArrayList<Solution>(100000);
                 while (!isFinalized) {
                     heap.add(new Solution());
+                    i++;
                 }
             } catch (OutOfMemoryError e) {
                 System.out.println("Out of memory error raised");
             }
+            System.out.println("=== "+i);
         }
 
         public void finish() {

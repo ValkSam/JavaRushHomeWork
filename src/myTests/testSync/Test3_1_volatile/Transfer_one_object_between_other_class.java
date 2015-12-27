@@ -19,6 +19,17 @@ import java.util.List;
  */
 public class Transfer_one_object_between_other_class {
     public static volatile List<String> altDrop = new ArrayList<>();
+    //зачем volatile. Если без volatile, то, если  dropGet на
+    //while (drop.size() == 0) {}
+    //попадем раньше, чем будет добавлена хотя бы одна запись в drop - будет гонять этот цикл бесконечно,
+    //не видя, что длина drop уже не нулевая. Будет вывод:
+    /*
+    put msg - 1
+    put msg - 2
+    put msg - 3
+    put msg - 4
+    put msg - 5
+    */
 
     public static void main(String[] args) throws Exception {
         System.out.println("!===========");
@@ -36,7 +47,6 @@ public class Transfer_one_object_between_other_class {
 }
 
 class altProducer implements Runnable {
-    private volatile List<String> drop;
     List<String> messages = Arrays.asList(
             "msg - 1",
             "msg - 2",
@@ -65,20 +75,6 @@ class altProducer implements Runnable {
 }
 
 class altConsumer implements Runnable {
-    //private List<String> drop;
-    //зачем volatile. Если без volatile, то, если  dropGet на
-    //while (drop.size() == 0) {}
-    //попадем раньше, чем будет добавлена хотя бы одна запись в drop - будет гонять этот цикл бесконечно,
-    //не видя, что длина drop уже не нулевая. Будет вывод:
-    /*
-    put msg - 1
-    put msg - 2
-    put msg - 3
-    put msg - 4
-    put msg - 5
-    */
-    private volatile List<String> drop;
-
     public void run() {
         String msg = null;
         while (!((msg = dropGet()).equals("DONE"))) {
@@ -104,4 +100,5 @@ class altConsumer implements Runnable {
         }
         return result;
     }
+    
 }

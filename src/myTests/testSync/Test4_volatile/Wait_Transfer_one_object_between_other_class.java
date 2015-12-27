@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Created by Valk on 22.03.15.
+ в развитие package myTests.testSync.Test3_volatile
+
  */
 public class Wait_Transfer_one_object_between_other_class {
     public static void main(String[] args) throws Exception

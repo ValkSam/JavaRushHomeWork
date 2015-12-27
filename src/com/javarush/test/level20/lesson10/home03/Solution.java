@@ -33,12 +33,12 @@ public class Solution implements Serializable {
         }
     }
 
-    /*
+
     public static void main(String args[]) throws Exception
     {
         ByteArrayOutputStream obuf = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream (obuf);
-        B b = (new Solution()).new B("bbb");
+        B b = (new Solution()).new B("bbb-");
         System.out.println(b.name);
         oos.writeObject(b);
 
@@ -47,6 +47,6 @@ public class Solution implements Serializable {
         B b1 = (B)ois.readObject();
         System.out.println(b1.name);
     }
-     */
+
 
 }

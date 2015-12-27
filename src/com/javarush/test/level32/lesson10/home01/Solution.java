@@ -22,6 +22,8 @@ public class Solution {
         @Override
         public void run() {
             try {
+                //Registry registry = LocateRegistry.getRegistry(2099); //можно локальный реестр получить. Если с другой машины, то надо его создать
+                //Registry registry = LocateRegistry.getRegistry("localhost", 2099); или так
                 DoubleString service = (DoubleString)registry.lookup(UNIC_BINDING_NAME);
                 System.out.println(service.doubleString("asd-"));
             } catch (RemoteException e) {

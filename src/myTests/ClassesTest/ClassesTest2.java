@@ -54,13 +54,19 @@ public class ClassesTest2
         System.out.println("========");
         ClassesTest2.NestedA.aa = 22; //использование объекта static класса вызовет его инициализацию - видим вывод "111"
         new ClassesTest2().new InnerC(); //демо: видимости private членов
-
+        //new B(new ClassesTest2());
+        new B();
     }
 }
 
 class B extends ClassesTest2.InnerD{ //пример наследования inner класса вне внешнего класса
     public B(ClassesTest2 a) {  //... соответсвенно и это обязательно
         a.super(); //это обязательно,  т.к. inner объект ClassesTest2.InnerD должен хранить ссылку на объект внешнего класса, а это способ ее передать ...
+        System.out.println("******1******");
+    }
+    public B() {  //... можно и так ...
+        new ClassesTest2().super(); //...можно и так передать ссылку на внешний объект
+        System.out.println("******2******");
     }
 }
 

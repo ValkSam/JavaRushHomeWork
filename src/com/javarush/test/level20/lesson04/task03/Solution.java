@@ -50,7 +50,7 @@ public class Solution implements Serializable {
         }
 
         private Object readResolve(){
-            return ourInstance;
+            return ourInstance; //возвращаем не то, что прочитано из потока при десериализации, а ourInstance (подменяем возвращаемый объект)
         }
     }
 }

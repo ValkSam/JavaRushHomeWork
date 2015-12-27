@@ -31,11 +31,11 @@ public class Livelock {
     public static void main(String[] args) {
         Thread thread1 = new Thread(new A(lock1, lock2));
         Thread thread2 = new Thread(new A(lock2, lock1)); //если порядок блокировки будет одинаковый - доля взаимных ожидаий будет меньше
+        thread1.setDaemon(true);
+        thread2.setDaemon(true);
         thread1.start();
         thread2.start();
         try {Thread.sleep(5000);} catch (InterruptedException e){}
-        thread1.interrupt();
-        thread2.interrupt();
         System.out.format("Доля livelock: %f", llcount*1f/(llcount+bzcount));
     }
     //

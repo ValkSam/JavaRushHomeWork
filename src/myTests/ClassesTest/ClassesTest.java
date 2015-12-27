@@ -31,8 +31,6 @@ public class ClassesTest {
 
     public static void main(String[] arr){
         System.out.println(new ClassesTest().sum(1.0,2.2));
-
         System.out.println(sum1(2.0, 2.2));
-
     }
 }
